@@ -1,0 +1,53 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/welcome-1.html?t=1"
+  },
+  "logoInfo": {
+    "title": "LAYUI MINI",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "管路实例",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "管路",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "管路ol",
+              "href": "page/welcome-3.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "管路数据",
+          "href": "page/table.html",
+          "icon": "fa fa-file-text",
+          "target": "_self"
+        },
+        {
+          "title": "新增管路",
+          "href": "page/form.html",
+          "icon": "fa fa-list-alt",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

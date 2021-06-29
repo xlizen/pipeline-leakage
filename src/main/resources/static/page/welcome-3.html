@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>主页一</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+	<link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+	<link rel="stylesheet" href="../css/public.css" media="all">
+	<link rel="stylesheet"
+	      href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
+	      type="text/css">
+	<style>
+        .map {
+            height: 780px;
+            width: 100%;
+        }
+	</style>
+	<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+</head>
+<style>
+    .main_btn > p {
+        height: 40px;
+    }
+</style>
+<body>
+<div class="layuimini-container">
+	<div class="layuimini-main">
+		<div class="layui-row">
+			<div id="map" class="map"></div>
+		</div>
+	</div>
+</div>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    var extent = [0, 0, 743, 730];
+    var projection = new ol.proj.Projection({
+        code: 'xkcd-image',
+        units: 'pixels',
+        extent: extent
+    });
+
+    var iconVector = new ol.source.Vector({
+        features: []
+    })
+
+    //创建图层
+    var iconLayer = new ol.layer.Vector({
+        source: iconVector
+    })
+
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+            new ol.layer.Image({
+                source: new ol.source.ImageStatic({
+                    url: '/file/showImageByPath?path=2021-06-03/7C4A395A3EB64480A1E9E5310222D81B.jpg_temp',
+                    projection: projection,
+                    imageExtent: extent
+                })
+            }),
+            iconLayer
+        ],
+        view: new ol.View({
+            projection: projection,
+            center: ol.extent.getCenter(extent),
+            zoom: 2,
+            maxZoom: 8
+        })
+    });
+    map.on('singleclick', function (e) {
+        var p = e.coordinate
+        //添加地图点击标记,创建标记feature
+        var iconFeature = new ol.Feature({
+            geometry: new ol.geom.Point(p),
+        })
+        //标记样式
+        /*var iconStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                //设置图标偏移
+                anchor: [0.5, 0],
+                anchorOrigin: 'bottom-right',
+                src: '../img/marker.png',
+            }),
+            text: new ol.style.Text({
+                font: '40px',
+                text: p[0] + ',' + p[1],
+                offsetY: -70
+            }),
+        })*/
+	    var iconStyle = new ol.style.Style({
+		    text: new ol.style.Text({
+			    font: '20px sans-serif',
+			    text: '流量: 2.3L/h'
+		    })
+	    })
+        //设置标记样式
+        iconFeature.setStyle(iconStyle)
+        iconVector.clear()//每次先清空容器
+        iconVector.addFeature(iconFeature)//将创建好的feature放入到容器中
+    })
+</script>
+</body>
+</html>

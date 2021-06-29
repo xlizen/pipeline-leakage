@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>首页二</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+	<link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+	<link rel="stylesheet" href="../css/public.css" media="all">
+	<link rel="stylesheet" href="../css/dtree/dtree.css">
+	<link rel="stylesheet" href="../css/dtree/font/dtreefont.css">
+	<link rel="stylesheet" href="../lib/jq-module/jquery-layout/jquery.layout-latest.css">
+	<style>
+        .layuimini-qiuck-module a i {
+            display: inline-block;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            border-radius: 2px;
+            font-size: 30px;
+            background-color: #F8F8F8;
+            color: #333;
+            transition: all .3s;
+            -webkit-transition: all .3s;
+        }
+
+        .layuimini-qiuck-module a cite {
+            position: relative;
+            top: 2px;
+            display: block;
+            color: #666;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .main_btn > p {
+            height: 40px;
+        }
+
+        #zoom_container_area {
+            clear: both;
+            width: 100%;
+            height: 96vh;
+        }
+
+        .landmarks {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .landmarks .item {
+            position: absolute;
+            text-align: center;
+            display: none;
+        }
+
+        .landmarks .mark .text {
+            background: none;
+            width: 180px;
+            margin-bottom: 3px;
+        }
+
+        .landmarks .mark .text div {
+            padding: 8px 6px;
+            background-color: #000000;
+            border-radius: 3px;
+            text-align: left;
+        }
+
+        .landmarks .mark .text div p {
+            margin: 10px;
+        }
+
+        .landmarks .mark img {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+        }
+
+        .landmarks .mark .text img {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .landmarks .mark .text div.viewBtn {
+            text-align: center;
+        }
+
+        .landmarks .mark .text div.viewBtn span {
+            padding: 3px 15px;
+            border-radius: 3px;
+            background-color: #dddddd;
+            color: #000000;
+            text-align: center;
+            cursor: pointer;
+            margin-right: 4px;
+            margin-left: 4px;
+        }
+
+        .layui-row .layui-card {
+            padding: 10px;
+        }
+
+        .dtree {
+            width: 100% !important;
+        }
+
+        .ui-layout-resizer {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-width: 0;
+        }
+	</style>
+</head>
+<body>
+<div class="layuimini-container">
+	<div class="layuimini-main">
+		<div id="myContiner" class="ui-layout-container" style="height: 96vh">
+			<div class="ui-layout-west ui-layout-pane ui-layout-pane-west">
+				<div class="layui-card">
+					<div class="ui-layout-content">
+						<div id="tree" class="dtree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="ui-layout-center ui-layout-pane ui-layout-pane-center">
+				<div class="layui-card">
+					<div id="zoom_container_area">
+					</div>
+				</div>
+			</div>
+			<div class="ui-layout-resizer ui-layout-resizer-west ui-layout-resizer-open ui-layout-resizer-west-open">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../lib/jquery-1.11.3/jquery.min.js"></script>
+<script src="../lib/jq-module/smoothZoom/jquery.smoothZoom.min.js"></script>
+<script src="../lib/jq-module/jquery-layout/jquery.layout-latest.js"></script>
+
+<script>
+    layui.use(['layer', 'miniTab', 'dtree'], function () {
+        var layer = layui.layer,
+            dtree = layui.dtree,
+            miniTab = layui.miniTab;
+
+        miniTab.listen();
+
+        $('#myContiner').layout({initClosed: false, west__size: 260});
+
+        /**
+         * 查看公告信息
+         **/
+        /*       $('body').on('click', '.layuimini-notice', function () {
+				   var title = $(this).children('.layuimini-notice-title').text(),
+					   noticeTime = $(this).children('.layuimini-notice-extra').text(),
+					   content = $(this).children('.layuimini-notice-content').html();
+				   var html = '<div style="padding:15px 20px; text-align:justify; line-height: 22px;border-bottom:1px solid #e2e2e2;background-color: #2f4056;color: #ffffff">\n' +
+					   '<div style="text-align: center;margin-bottom: 20px;font-weight: bold;border-bottom:1px solid #718fb5;padding-bottom: 5px"><h4 class="text-danger">' + title + '</h4></div>\n' +
+					   '<div style="font-size: 12px">' + content + '</div>\n' +
+					   '</div>\n';
+				   parent.layer.open({
+					   type: 1,
+					   title: '系统公告' + '<span style="float: right;right: 1px;font-size: 12px;color: #b1b3b9;margin-top: 1px">' + noticeTime + '</span>',
+					   area: '300px;',
+					   shade: 0.8,
+					   id: 'layuimini-notice',
+					   btn: ['查看', '取消'],
+					   btnAlign: 'c',
+					   moveType: 1,
+					   content: html,
+					   success: function (layero) {
+						   var btn = layero.find('.layui-layer-btn');
+						   btn.find('.layui-layer-btn0').attr({
+							   href: 'https://gitee.com/zhongshaofa/layuimini',
+							   target: '_blank'
+						   });
+					   }
+				   });
+			   });*/
+
+
+        //stompClient.debug = null
+
+        dtree.render({
+            elem: "#tree",
+            url: "/pipeline/tree",
+            dataStyle: "layuiStyle",  //使用layui风格的数据格式
+            response: {message: "msg", statusCode: 0}  //修改response中返回数据的定义
+        });
+
+        var flowMap = {};
+        const leakageMap = {
+            "2-3": [614, 127], "5-6": [303, 493],
+            "4-7": [458, 647], "7-8": [127, 583]
+        }
+
+        const flow = [
+            {
+                id: 1,
+                flow: 0.3,
+                pressure: 200
+            },
+            {
+                id: 2,
+                flow: 0.2,
+                pressure: 204
+            }
+        ]
+
+        const leakage = [
+            {
+                previous: 2,
+                next: 3,
+                status: 2
+            },
+            {
+                previous: 5,
+                next: 6,
+                status: 2
+            },
+            {
+                previous: 4,
+                next: 7,
+                status: 1
+            }
+        ]
+
+        var html;
+
+        dtree.on("node('tree')", function (obj) {
+            layer.msg(JSON.stringify(obj.param));
+            let pipeline;
+            $.get('/pipeline/load', {id: obj.param.nodeId}, function (res) {
+                if (res.code === 0 && res.data != null) {
+                    pipeline = res.data;
+                    flowMap = {};
+                    res.data.sensorList.forEach(function (val, index) {
+                        let point = val.point.split(', ')
+                        console.log(point);
+                        flowMap[val.no] = point;
+                    });
+                    subcrible(pipeline.mapFileName, pipeline.id);
+                    $.get('/pipeline/loadLeakage', {id: obj.param.nodeId});
+                }
+            });
+            console.log(flowMap);
+        });
+
+        function subcrible(img, pipeLineId) {
+            let sock = new SockJS('/notify');
+            let stompClient = Stomp.over(sock);
+            stompClient.connect({}, (frame) => {//连接WebSocket服务端
+                //通过stompClient.subscribe订阅/topic/getResponse 目标(destination)发送的消息
+                stompClient.subscribe(`/topic/`, (response) => {
+                    //发现消息进入    开始处理前端触发逻辑
+                    const message = JSON.parse(response.body);
+                    console.log(message);
+                    if (message.code === 200) {
+                        let $zoom_container_area = $('#zoom_container_area');
+
+                        html = `<img src="/file/showImageByPath?path=${img}" id="map1" />
+                        <div class="landmarks" data-show-at-zoom="100" data-allow-drag="true">`;
+
+                        setSysInfo(message.data.sysInfo);
+                        buildTip(message.data.flow);
+                        buildAlarm(message.data.leakage);
+                        html += `</div>`;
+
+                        $zoom_container_area.html(html);
+
+                        $('#map1').smoothZoom({
+                            zoom_BUTTONS_SHOW: true,
+                            pan_BUTTONS_SHOW: false,
+                            pan_LIMIT_BOUNDARY: false,
+                            button_ICON_IMAGE: '../img/icons.png',
+                            container: 'zoom_container_area'
+                        });
+                    }
+                });
+            });
+        }
+
+        function buildTip(flow) {
+            for (let f of flow) {
+                let point = flowMap[f.id];
+                html += `
+                    <div class="item mark" data-position="${point[0]},${point[1]}" data-show-at-zoom="0">
+                        <div>
+                            <div class="text">
+                                <div>
+                                    <p>当前流量：${f.flow} m3/s</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `
+            }
+        }
+
+        function buildAlarm(leakage) {
+            for (let l of leakage) {
+                let point = leakageMap[l.previous + "-" + l.next];
+                let src = l.status === 2 ? '../img/doubt.png' : '../img/abnormal.png'
+                html += `
+                    <div class="item mark" data-position="${point[0]},${point[1]}" data-show-at-zoom="0">
+                        <img src="${src}">
+                    </div>
+                    `
+            }
+        }
+
+        function setSysInfo(sysInfo) {
+            let point = flowMap[sysInfo.no];
+            html += `
+                    <div class="item mark" data-position="${point[0]},${point[1]}" data-show-at-zoom="0">
+                        <div>
+                            <div class="text">
+                                <div>
+                                    <p>稳定压力：${sysInfo.standard} bar</p>
+                                    <p>当前压力：${sysInfo.current} bar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+        }
+    });
+</script>
+</body>
+</html>
