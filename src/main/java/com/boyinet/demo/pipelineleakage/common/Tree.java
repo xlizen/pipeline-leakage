@@ -15,11 +15,11 @@ import java.util.List;
 public class Tree {
 
     private String title;
-    private Integer id;
+    private Long id;
     private Boolean spread;
     private List<Tree> children;
 
-    public Tree(String title, Integer id, Boolean spread) {
+    public Tree(String title, Long id, Boolean spread) {
         this.title = title;
         this.id = id;
         this.spread = spread;

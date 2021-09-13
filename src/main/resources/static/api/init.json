@@ -1,7 +1,7 @@
 {
   "homeInfo": {
     "title": "首页",
-    "href": "page/welcome-1.html?t=1"
+    "href": "page/table.html"
   },
   "logoInfo": {
     "title": "LAYUI MINI",
@@ -16,26 +16,6 @@
       "target": "_self",
       "child": [
         {
-          "title": "管路实例",
-          "href": "",
-          "icon": "fa fa-home",
-          "target": "_self",
-          "child": [
-            {
-              "title": "管路",
-              "href": "page/welcome-1.html",
-              "icon": "fa fa-tachometer",
-              "target": "_self"
-            },
-            {
-              "title": "管路ol",
-              "href": "page/welcome-3.html",
-              "icon": "fa fa-tachometer",
-              "target": "_self"
-            }
-          ]
-        },
-        {
           "title": "管路数据",
           "href": "page/table.html",
           "icon": "fa fa-file-text",
@@ -44,6 +24,12 @@
         {
           "title": "新增管路",
           "href": "page/form.html",
+          "icon": "fa fa-list-alt",
+          "target": "_self"
+        },
+        {
+          "title": "系统校准",
+          "href": "page/system-calibration.html",
           "icon": "fa fa-list-alt",
           "target": "_self"
         }

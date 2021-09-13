@@ -1,8 +1,8 @@
 package com.boyinet.demo.pipelineleakage.service;
 
 
-import com.boyinet.demo.pipelineleakage.bean.History;
-import com.boyinet.demo.pipelineleakage.repository.HistoryRepository;
+import com.boyinet.demo.pipelineleakage.bean.primary.History;
+import com.boyinet.demo.pipelineleakage.repository.primary.HistoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -50,7 +50,7 @@ public class FileLoadService {
                             }
                             length++;
                             String dateStr = split[i * 3];
-                            History history = new History(new BigDecimal(val), dateFormat.parse(dateStr), i + 1);
+                            History history = new History(new BigDecimal(val), dateFormat.parse(dateStr), i + 1L);
                             historyList.add(history);
                         }
                     }

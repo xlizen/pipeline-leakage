@@ -17,7 +17,6 @@
 <body>
 <div class="layuimini-container">
 	<div class="layuimini-main">
-
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 			<legend>传感器信息编辑</legend>
 		</fieldset>
@@ -28,7 +27,7 @@
 				<div class="layui-input-block">
 					<input type="hidden" name="no">
 					<input type="hidden" name="childId">
-					<input type="text" name="k" lay-verify="required" class="layui-input">
+					<input type="text" name="k" class="layui-input">
 				</div>
 			</div>
 
@@ -36,20 +35,20 @@
 				<div class="layui-inline">
 					<label class="layui-form-label">前置传感器</label>
 					<div class="layui-input-inline">
-						<input type="text" name="pre" lay-verify="number" autocomplete="off"
+						<input type="text" name="pre" autocomplete="off"
 						       class="layui-input">
 					</div>
 				</div>
 				<div class="layui-inline">
 					<label class="layui-form-label">后置传感器</label>
 					<div class="layui-input-inline">
-						<input type="text" name="next" lay-verify="number" autocomplete="off" class="layui-input">
+						<input type="text" name="next" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-inline">
-					<label class="layui-form-label">与后置距离</label>
+					<label class="layui-form-label">与前置距离</label>
 					<div class="layui-input-inline">
-						<input type="text" name="l" lay-verify="number" autocomplete="off" class="layui-input">
+						<input type="text" name="l" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 			</div>
@@ -62,13 +61,16 @@
 			</div>
 
 			<div class="layui-form-item" pane="">
-				<label class="layui-form-label">支管起始点</label>
+				<label class="layui-form-label">位置状态</label>
 				<div class="layui-input-block">
-					<input type="checkbox" name="type" lay-skin="switch" lay-filter="switchTest" lay-text="是|否">
+					<input type="radio" name="type" value="4" title="管路首个传感器">
+					<input type="radio" name="type" value="0" title="支路首个传感器">
+					<input type="radio" name="type" value="1" title="普通传感器">
+					<input type="radio" name="type" value="2" title="变径转角处">
 				</div>
 			</div>
 
-			<div class="layui-form-item" >
+			<div class="layui-form-item">
 				<button class="layui-btn" lay-submit="" lay-filter="saveBtn">立即提交</button>
 				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 			</div>
@@ -93,7 +95,6 @@
             });
             return false;
         });
-
     });
 </script>
 </body>

@@ -3,12 +3,12 @@ package com.boyinet.demo.pipelineleakage.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.StrUtil;
-import com.boyinet.demo.pipelineleakage.bean.PipeLine;
-import com.boyinet.demo.pipelineleakage.bean.Sensor;
+import com.boyinet.demo.pipelineleakage.bean.primary.PipeLine;
+import com.boyinet.demo.pipelineleakage.bean.primary.Sensor;
 import com.boyinet.demo.pipelineleakage.common.AppFileUtils;
 import com.boyinet.demo.pipelineleakage.common.JsonUtils;
 import com.boyinet.demo.pipelineleakage.common.Tree;
-import com.boyinet.demo.pipelineleakage.repository.PipeLineRepository;
+import com.boyinet.demo.pipelineleakage.repository.primary.PipeLineRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author lengchunyun
@@ -72,7 +71,7 @@ public class PipeLineService {
         }
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         pipeLineRepository.deleteById(id);
     }
 
@@ -93,7 +92,7 @@ public class PipeLineService {
         return trees;
     }
 
-    public PipeLine load(Integer id) {
+    public PipeLine load(Long id) {
         PipeLine pipeLine = pipeLineRepository.findById(id).orElse(null);
         if (pipeLine == null) {
             return null;
@@ -101,5 +100,15 @@ public class PipeLineService {
         List<Sensor> sensorList = sensorService.findByPid(id);
         pipeLine.setSensorList(sensorList);
         return pipeLine;
+    }
+
+    public PipeLine findById(Long pipelineId) {
+        return pipeLineRepository.findById(pipelineId).orElse(null);
+    }
+
+    public List<PipeLine> findAll() {
+        List<PipeLine> pipeLines = new ArrayList<>();
+        pipeLineRepository.findAll().forEach(pipeLines::add);
+        return pipeLines;
     }
 }

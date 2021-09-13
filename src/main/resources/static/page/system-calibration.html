@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <link rel="stylesheet" href="../css/soulTable.css" media="all"/>
+</head>
+<body>
+<div class="layuimini-container" id="app">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>基准记录</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-md3">
+                            <div class="layui-form-item ">
+                                <label class="layui-form-label">管路名称</label>
+                                <div class="layui-input-block">
+                                    <select name="pipelineId" id="pipelineId">
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-form-item ">
+                                <label class="layui-form-label">起始时间</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="startTime" autocomplete="false"
+                                           lay-verify="required" id="startTime" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-form-item ">
+                                <label class="layui-form-label">结束时间</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="endTime" autocomplete="false"
+                                           lay-verify="required" id="endTime" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-form-item ">
+                                <button style="float: right" type="submit" class="layui-btn layui-btn-primary"
+                                        lay-submit lay-filter="doRecord"><i class="layui-icon"></i> 记录基准
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <fieldset class="table-search-fieldset">
+            <legend>定时计算</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <script type="text/html" id="schedulerJobTableToolbar">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加
+                        </button>
+                        <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除
+                        </button>
+                    </div>
+                </script>
+                <table class="layui-hide" id="schedulerJobTable"></table>
+                <script type="text/html" id="schedulerJobTableBar">
+                    <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+                </script>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div style="display: none" id="schedulerJobPanel">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form layui-form-pane" action="" layui-filter="schedulerJobFrm">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">任务分组</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="group" autocomplete="false"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">任务代号</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="group" autocomplete="false"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">任务名称</label>
+                    <div class="layui-input-inline">
+                        <select name="pipelineId" id="jobPipelineId">
+                        </select>
+                        定时泄露计算
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">执行间隔</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="interval" autocomplete="false"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">任务描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="group" autocomplete="false"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">执行方式</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="group" autocomplete="false"
+                               lay-verify="required">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<!--
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+-->
+<script>
+
+    layui.use(['form', 'laydate', 'layer', 'table'], function () {
+        const form = layui.form,
+            laydate = layui.laydate,
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.jquery;
+
+        getPipelineOption();
+
+        renderDateInput();
+
+
+        form.on("submit(doRecord)", function (data) {
+            $.post('/flow/recordStand', data.field, function (res) {
+                layer.msg(res.msg);
+            });
+            return false;
+        });
+
+        table.render({
+            elem: '#schedulerJobTable',
+            url: '/schedulerJob/list',
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            toolbar: '#schedulerJobTableToolbar',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            clos: [[
+                {field: 'group', title: '任务分组'},
+                {field: 'name', title: '任务代号'},
+                {field: 'name', title: '任务名称'},
+                {field: 'content', title: '任务信息'},
+                {field: 'interval', title: '任务间隔(分钟)'},
+                {field: 'runType', title: '执行类型'},
+                {field: 'status', title: '任务状态'},
+                {title: '操作', width: 156, templet: '#schedulerJobTableBar'},
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: true,
+            skin: 'line',
+            done: function () {
+            }
+        })
+
+        table.on('toolbar(schedulerJobTable)', function (obj) {
+            if (obj.event === 'add') {
+                var index = layer.open({
+                    title: '添加定时任务',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['420', '380'],
+                    content: $("#schedulerJobPanel"),
+                });
+            }
+        })
+
+
+        function renderDateInput() {
+            const dataFormat = "yyyy/MM/dd HH:mm:ss";
+
+            laydate.render({
+                elem: '#startTime'
+                , type: 'datetime'
+                , format: dataFormat
+            });
+
+            laydate.render({
+                elem: '#endTime'
+                , type: 'datetime'
+                , format: dataFormat
+            });
+        }
+
+        function getPipelineOption() {
+            let html = `<option value="">全部</option>`;
+            $.get('/pipeline/listId', function (res) {
+                if (res.data != null) {
+                    $.each(res.data, function (index, item) {
+                        html += `<option value="${item.id}">${item.name}</option>`
+                    });
+                }
+                $("#pipelineId").html(html);
+                $("#jobPipelineId").html(html);
+                form.render('select');
+            });
+        }
+    });
+
+
+</script>
+</body>
+</html>

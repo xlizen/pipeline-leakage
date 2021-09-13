@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Leakage {
-    private Integer previous;
-    private Integer next;
+    private Long previous;
+    private Long next;
     private String direction;
     private Double distance;
     private Byte status;
     private Double value;
 
-    public Leakage(Integer previous, Integer next, Byte status) {
+    public Leakage(Long previous, Long next, Byte status) {
         this.previous = previous;
         this.next = next;
         this.status = status;

@@ -2,11 +2,11 @@ package com.boyinet.demo.pipelineleakage.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.boyinet.demo.pipelineleakage.bean.Sensor;
-import com.boyinet.demo.pipelineleakage.repository.SensorRepository;
+import com.boyinet.demo.pipelineleakage.bean.primary.Sensor;
+import com.boyinet.demo.pipelineleakage.repository.primary.SensorRepository;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,14 +26,14 @@ public class UploadDataListener extends AnalysisEventListener<Sensor> {
 
     private final SensorRepository sensorRepository;
 
-    private final Integer pipeLineId;
+    private final Long pipeLineId;
 
     /**
      * 如果使用了spring,请使用这个构造方法。每次创建Listener的时候需要把spring管理的类传进来
      *
      * @param sensorRepository dao
      */
-    public UploadDataListener(SensorRepository sensorRepository, Integer pipeLineId) {
+    public UploadDataListener(SensorRepository sensorRepository, Long pipeLineId) {
         this.sensorRepository = sensorRepository;
         this.pipeLineId = pipeLineId;
     }
@@ -49,6 +49,8 @@ public class UploadDataListener extends AnalysisEventListener<Sensor> {
         log.info("解析到一条数据:{}", data);
         data.setPipelineId(this.pipeLineId);
         data.setCreateTime(new Date());
+        data.setCalcL(BigDecimal.ZERO);
+        data.setCalcR(BigDecimal.ZERO);
         list.add(data);
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
         if (list.size() >= BATCH_COUNT) {

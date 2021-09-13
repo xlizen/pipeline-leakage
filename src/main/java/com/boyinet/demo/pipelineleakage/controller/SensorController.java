@@ -1,10 +1,10 @@
 package com.boyinet.demo.pipelineleakage.controller;
 
 import com.alibaba.excel.EasyExcel;
-import com.boyinet.demo.pipelineleakage.bean.History;
-import com.boyinet.demo.pipelineleakage.bean.Sensor;
+import com.boyinet.demo.pipelineleakage.bean.primary.History;
+import com.boyinet.demo.pipelineleakage.bean.primary.Sensor;
 import com.boyinet.demo.pipelineleakage.common.R;
-import com.boyinet.demo.pipelineleakage.repository.SensorRepository;
+import com.boyinet.demo.pipelineleakage.repository.primary.SensorRepository;
 import com.boyinet.demo.pipelineleakage.excel.UploadDataListener;
 import com.boyinet.demo.pipelineleakage.service.HistoryService;
 import com.boyinet.demo.pipelineleakage.service.SensorService;
@@ -40,18 +40,18 @@ public class SensorController {
     @ResponseBody
     public String upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), Sensor.class,
-                new UploadDataListener(sensorRepository, 1)).sheet().doRead();
+                new UploadDataListener(sensorRepository, 1L)).sheet().doRead();
         return "success";
     }
 
     @GetMapping("history")
     @ResponseBody
     public History history(Date date) {
-        return historyService.getValueByTime(date, 1);
+        return historyService.getValueByTime(date, 1L);
     }
 
     @GetMapping("pipeline")
-    public R<List<Sensor>> listByPipeLine(Integer pipeLineId) {
+    public R<List<Sensor>> listByPipeLine(Long pipeLineId) {
         List<Sensor> sensorList = sensorRepository.findSensorsByPipelineIdEquals(pipeLineId);
         R<List<Sensor>> ok = R.ok(sensorList);
         ok.setTotal(sensorList.size());
@@ -65,7 +65,7 @@ public class SensorController {
     }
 
     @GetMapping("delete")
-    R<Map<String, Object>> delete(Integer id) {
+    R<Map<String, Object>> delete(Long id) {
         sensorService.deleteById(id);
         return R.ok();
     }

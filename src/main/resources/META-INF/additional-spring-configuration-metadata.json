@@ -1,0 +1,74 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.primary.jdbc-url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.primary.jdbc-url."
+    },
+    {
+      "name": "spring.datasource.primary.driver-class-name",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.primary.driver-class-name."
+    },
+    {
+      "name": "spring.datasource.primary.username",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.primary.username."
+    },
+    {
+      "name": "spring.datasource.primary.password",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.primary.password."
+    },
+    {
+      "name": "spring.datasource.second.jdbc-url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.second.jdbc-url."
+    },
+    {
+      "name": "spring.datasource.second.driver-class-name",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.second.driver-class-name."
+    },
+    {
+      "name": "spring.datasource.second.username",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.second.username."
+    },
+    {
+      "name": "spring.datasource.second.password",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.second.password."
+    },
+    {
+      "name": "spring.jpa.hibernate.format_sql",
+      "type": "java.lang.Boolean",
+      "description": "Description for spring.jpa.hibernate.format_sql."
+    },
+    {
+      "name": "spring.jpa.hibernate.primary-dialect",
+      "type": "java.lang.String",
+      "description": "Description for spring.jpa.hibernate.primary-dialect."
+    },
+    {
+      "name": "spring.jpa.hibernate.second-dialect",
+      "type": "java.lang.String",
+      "description": "Description for spring.jpa.hibernate.second-dialect."
+    },
+    {
+      "name": "remote.pull.data.enable",
+      "type": "java.lang.Boolean",
+      "description": "Description for remote.pull.data.enable."
+    },
+    {
+      "name": "leakage.result.post.url",
+      "type": "java.lang.String",
+      "description": "Description for leakage.result.post.url."
+    },
+    {
+      "name": "pressure.history.get.url",
+      "type": "java.lang.String",
+      "description": "Description for pressure.history.get.url."
+    }
+  ]
+}

@@ -55,12 +55,18 @@ public class LeakUtil {
         return molecular.divide(denominator, 6, RoundingMode.HALF_UP);
     }
 
+    public static BigDecimal calcR(BigDecimal lastR, BigDecimal lastL, BigDecimal r, BigDecimal l) {
+        return lastR.multiply(lastL.divide(l, 2, RoundingMode.HALF_UP)).add(r.multiply(l.subtract(lastL).divide(l, 2, RoundingMode.HALF_UP)));
+    }
+
 
     public static void main(String[] args) {
-        System.out.println(calcMain(BigDecimal.valueOf(25*1000),BigDecimal.valueOf(5),
-                BigDecimal.valueOf(0.0224),BigDecimal.valueOf(24)));
+        /*System.out.println(calcMain(BigDecimal.valueOf(25 * 1000), BigDecimal.valueOf(5),
+                BigDecimal.valueOf(0.0224), BigDecimal.valueOf(24)));
 
-        System.out.println(calcDistance(BigDecimal.valueOf(25*1000),BigDecimal.valueOf(13),
-                BigDecimal.valueOf(0.0224),BigDecimal.valueOf(0.627)));
+        System.out.println(calcDistance(BigDecimal.valueOf(25 * 1000), BigDecimal.valueOf(13),
+                BigDecimal.valueOf(0.0224), BigDecimal.valueOf(0.627)));*/
+        System.out.println(calcR(BigDecimal.valueOf(0), BigDecimal.valueOf(0), BigDecimal.valueOf(0.2), BigDecimal.valueOf(240)).doubleValue());
+
     }
 }

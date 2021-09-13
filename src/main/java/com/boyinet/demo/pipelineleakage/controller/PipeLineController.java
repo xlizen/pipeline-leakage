@@ -1,7 +1,7 @@
 package com.boyinet.demo.pipelineleakage.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.boyinet.demo.pipelineleakage.bean.PipeLine;
+import com.boyinet.demo.pipelineleakage.bean.primary.PipeLine;
 import com.boyinet.demo.pipelineleakage.common.R;
 import com.boyinet.demo.pipelineleakage.common.Tree;
 import com.boyinet.demo.pipelineleakage.service.LeakageService;
@@ -59,7 +59,7 @@ public class PipeLineController {
     }
 
     @GetMapping("delete")
-    R<Map<String, Object>> delete(Integer id) {
+    R<Map<String, Object>> delete(Long id) {
         pipeLineService.deleteById(id);
         return R.ok();
     }
@@ -70,14 +70,20 @@ public class PipeLineController {
     }
 
     @GetMapping("load")
-    public R<PipeLine> load(Integer id) {
+    public R<PipeLine> load(Long id) {
         PipeLine pipeLine = pipeLineService.load(id);
         return R.ok(pipeLine);
     }
 
     @GetMapping("loadLeakage")
-    public R<Void> loadLeakage(Integer id) {
-        leakageService.load(id);
+    public R<Void> loadLeakage(Long id, String time) {
+        leakageService.load(id, time);
         return R.ok();
+    }
+
+    @GetMapping("listId")
+    public R<List<PipeLine>> listId() {
+        List<PipeLine> all = pipeLineService.findAll();
+        return R.ok(all);
     }
 }

@@ -2,9 +2,9 @@ package com.boyinet.demo.pipelineleakage.controller;
 
 
 import com.boyinet.demo.pipelineleakage.bean.Result;
-import com.boyinet.demo.pipelineleakage.bean.Sensor;
+import com.boyinet.demo.pipelineleakage.bean.primary.Sensor;
 import com.boyinet.demo.pipelineleakage.common.R;
-import com.boyinet.demo.pipelineleakage.repository.SensorRepository;
+import com.boyinet.demo.pipelineleakage.repository.primary.SensorRepository;
 import com.boyinet.demo.pipelineleakage.service.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +49,7 @@ public class DemoController {
     void setZero(@RequestParam Date time) {
         List<Sensor> sensors = new ArrayList<>();
         sensorRepository.findAll().forEach(sensors::add);
-        Map<Integer, Sensor> map = historyService.listByTime(time, sensors);
+        Map<Long, Sensor> map = historyService.listByTime(time, sensors);
         zeroService.recordZero(map);
     }
 
@@ -72,7 +72,7 @@ public class DemoController {
     BigDecimal avg(@RequestParam String date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            return historyService.calc5minuteAvg(dateFormat.parse(date), 1);
+            return historyService.calc5minuteAvg(dateFormat.parse(date), 1L);
         } catch (ParseException e) {
             e.printStackTrace();
         }

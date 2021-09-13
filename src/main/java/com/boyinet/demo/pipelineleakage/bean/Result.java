@@ -1,5 +1,6 @@
 package com.boyinet.demo.pipelineleakage.bean;
 
+import com.boyinet.demo.pipelineleakage.bean.primary.Flow;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Result {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SysInfo {
-        private Integer no;
+        private Long no;
         private Double standard;
         private Double current;
     }

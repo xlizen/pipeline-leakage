@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>layui</title>
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
-	<link rel="stylesheet" href="../css/public.css" media="all">
-	<link rel="stylesheet"
-	      href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
-	      type="text/css">
-	<style>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
+          type="text/css">
+    <style>
         .layui-input-block button {
             margin: 0 10px;
         }
@@ -20,80 +20,91 @@
             height: 480px;
             width: 100%;
         }
-	</style>
-	<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    </style>
 </head>
 <body>
 <div class="layuimini-container">
-	<div class="layuimini-main">
+    <div class="layuimini-main">
 
-		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-			<legend>管路信息添加</legend>
-		</fieldset>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>管路信息添加</legend>
+        </fieldset>
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">管路名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required" class="layui-input">
+                </div>
+            </div>
 
-		<form class="layui-form layui-form-pane" action="">
-			<div class="layui-form-item">
-				<label class="layui-form-label">管路名称</label>
-				<div class="layui-input-block">
-					<input type="text" name="name" lay-verify="required" class="layui-input">
-				</div>
-			</div>
-
-			<div class="layui-form-item" pane>
-				<label class="layui-form-label">
+            <div class="layui-form-item" pane>
+                <label class="layui-form-label">
 					<span>
 						管路信息 <i class="layui-icon" id="tip"
-						        style="vertical-align: -10%;" lay-event="tip">&#xe60b;</i>
+                                style="vertical-align: -10%;" lay-event="tip">&#xe60b;</i>
 					</span>
-				</label>
-				<div class="layui-input-block">
-					<input type="hidden" name="xlsFileName" id="excelFile">
-					<button type="button" class="layui-btn" id="uploadExcel">
-						<i class="layui-icon">&#xe67c;</i>上传文档
-					</button>
-					<span id="excelName"></span>
-				</div>
-			</div>
+                </label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="xlsFileName" id="excelFile">
+                    <button type="button" class="layui-btn" id="uploadExcel">
+                        <i class="layui-icon">&#xe67c;</i>上传文档
+                    </button>
+                    <span id="excelName"></span>
+                </div>
+            </div>
 
-			<div class="layui-form-item">
-				<div class="layui-inline">
-					<label class="layui-form-label">泄漏标准</label>
-					<div class="layui-input-inline">
-						<input type="text" name="standard" lay-verify="number" autocomplete="off"
-						       class="layui-input">
-					</div>
-				</div>
-				<div class="layui-inline">
-					<label class="layui-form-label">持续时间</label>
-					<div class="layui-input-inline">
-						<input type="text" name="duration" lay-verify="number" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-			</div>
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">基准点位</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="referencePoint" autocomplete="off"
+                                   class="layui-input" placeholder="默认为管路、支路首支传感器">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">泄漏标准</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="standard" lay-verify="required|number" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label required">持续时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="duration" lay-verify="required|number" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" pane>
+                <label class="layui-form-label">管路图示</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="mapFileName" id="mapFileName">
+                    <input type="hidden" name="mapFileSize" id="mapFileSize">
+                    <button type="button" class="layui-btn" id="uploadMap" class="layui-input">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+            </div>
 
-			<div class="layui-form-item" pane>
-				<label class="layui-form-label">管路图示</label>
-				<div class="layui-input-block">
-					<input type="hidden" name="mapFileName" id="mapFileName">
-					<input type="hidden" name="mapFileSize" id="mapFileSize">
-					<button type="button" class="layui-btn" id="uploadMap" class="layui-input">
-						<i class="layui-icon">&#xe67c;</i>上传图片
-					</button>
-				</div>
-			</div>
+            <div class="layui-form-item" pane>
+                <div id="map" class="map"></div>
+            </div>
 
-			<div class="layui-form-item" pane>
-				<div id="map" class="map"></div>
-			</div>
-
-			<div class="layui-form-item">
-				<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
-			</div>
-		</form>
-	</div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 <script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
